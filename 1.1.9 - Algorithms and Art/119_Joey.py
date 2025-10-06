@@ -133,12 +133,14 @@ painter.shape("car")
 for car in range(cloop):
     painter.hideturtle()
     randomcarcolor = rdm.choice(carcolorlist)
+    shape_size = rdm.randint(10,25)
+    painter.shapesize(shape_size)
     painter.color(randomcarcolor,randomcarcolor)
     painter.speed(0)
     painter.goto(750,-313)
     painter.showturtle()
     painter.speed(3)
-    painter.forward(1600)
+    painter.forward(1700)
 
 
 
