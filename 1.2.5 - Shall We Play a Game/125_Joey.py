@@ -9,6 +9,7 @@ painter = trtl.Turtle()
 fish = trtl.Turtle()
 fishcounterscore = trtl.Turtle()
 fishcounterscore2 = trtl.Turtle()
+totalscore = trtl.Turtle()
 fish.shape("turtle")
 painter.goto(0,0)
 painter.speed(0)
@@ -44,9 +45,13 @@ painter.goto(-50,-150)
 painter.color("black")
 painter.write("Click to fish!", font= ("Papyrus", 25, "normal"))
 # Make the gui interactable - 15 minutes
-
+# i put in the onclick method
 # Make fish randomly sized, with bigger ones being much more rare - 1 hour
-def getfish():
+def getfish(x, y):
+    fish.clear()
+    fishcounterscore.clear()
+    fishcounterscore2.clear()
+    global score
     global fishsize
     global sizefish 
     sizefish = "small"
@@ -60,13 +65,15 @@ def getfish():
             if fishsize >= 150:
                 fishsize = rdm.randint(150,250)
                 sizefish = "xlarge"
-    print(fishsize)
-    print(sizefish)
+    score = score + fishsize
+    fishtrtl()
 
 # Biggest fish displayed above fisherman - 30 minutes
 def fishtrtl():
+    fish.hideturtle()
     fish.penup()
     fish.goto(0,75)
+    fish.showturtle()
     fish.speed(1)
     fish.color(rdm.choice(fishcolorlist))
     if sizefish == "small":
@@ -91,10 +98,38 @@ def showfish():
     fishcounterscore2.goto(-175,225)
     fishcounterscore.write("The fish is " + sizefish, font= ("Papyrus", 20, "normal"))
     fishcounterscore2.write(fishsize, font= ("Papyrus", 20, "normal"))
+    totalscore.clear()
+    totalscore.penup()
+    totalscore.hideturtle()
+    totalscore.speed(0)
+    totalscore.goto(175,250)
+    totalscore.write(score, font= ("Papyrus", 20, "normal"))
 # Save what your biggest fish is in a save file along with your name to correlate to it - 1 hour
 
-getfish()
-fishtrtl()
+def getfishfile():
+    record = open("fishingrecord.txt", "r")
+    filefishcolor = []
+    for line in record:
+        while (line[index] != "/n"):
+
+            while (line[index] != ","):
+                storedfishcolor = storedfishcolor + line[index] 
+                index = index + 1
+        
+    record.close()
+    print(storedfishcolor)
+
+
+
+
+
+
+
+
+
+getfishfile()
+wn.onclick(getfish)
+
 
 
 
