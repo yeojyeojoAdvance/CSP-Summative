@@ -21,37 +21,47 @@ wn.bgpic(closed_envelope)
 
 musiclist = ["calmjazz.mp3", "cooljazz.mp3", "mozart.mp3", "pyhoms.mp3"]
 
+
+
+ingame = False
+
 def envelopeopener(x,y):
     wn.bgpic(open_envelope)
     trtl.onscreenclick(mapopener)
 
 def mapopener(x,y):
+    global ingame
     wn.bgpic(map)
+    ingame = False
     trtl.onscreenclick(mapclicker)
 
+
+
 def mapclicker(x,y):
-    if 0 < x < 300 and -300 < y < 0:
+    global ingame
+    if 0 < x < 300 and -300 < y < 0 and ingame == False:
+        ingame = True
         leave = trtl.textinput("Continue?","Thank you for playing, if you want to stay, enter in 'y'!")
         if leave == "y":
             print("stay")
         else:
             exit()
-    if -300 < x < 0 and -300 < y < 0:
-        print("music")
-        global musicplaying
-        if musicplaying == True:
-            playsound(rand.choice(musiclist), block=False)
-        musicplaying = False
+    if -300 < x < 0 and -300 < y < 0 and ingame == False:
+        ingame = True
+        music()
 
 
-    if 0 < x < 300 and 0 < y < 300:
+    if 0 < x < 300 and 0 < y < 300 and ingame == False:
+        ingame = True
         golf()
 
 
-    if -300 < x < 0 and 0 < y < 300:
-        print("shuffleboard")
+    if -300 < x < 0 and 0 < y < 300 and ingame == False:
+        ingame = True
+        shuffleboard()
 
-
+def shuffleboard():
+    print("shuffleboard")
 
 def golf():
     print("golf")
@@ -64,7 +74,22 @@ def golf():
     golfball.shape("circle")
     golfball.color("azure3")
     golfball.shapesize(2)
-    golfball.showturtle() 
+    golfball.showturtle()
+
+def music(): 
+    print("music")
+    global musicplaying
+    global ingame
+    indexchoice = trtl.textinput("What type of music?","1 = Calm Jazz, 2 = Cool Jazz, 3 = Mozart, 4 = Put Your Head On My Shoulder")
+    indexchoice = int(indexchoice)
+    musicchoice = musiclist[indexchoice-1]
+    if musicplaying == True:
+        playsound(musicchoice, block=False)
+    musicplaying = False
+
+
+wn.listen()
+wn.onkeypress(lambda: mapopener("x","y"))
 
 trtl.onscreenclick(envelopeopener)
 
